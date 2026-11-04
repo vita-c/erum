@@ -1,0 +1,2820 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>교육컨텐츠연구소 이룸 | 배우고 나눔을 실천하다</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #FFFFFF;
+      --bg-alt: #F8F9FB;
+      --bg-dark: #1A1D2E;
+      --accent: #E8891A;
+      --accent-light: #F5A73B;
+      --accent-pale: #FEF3E2;
+      --accent-dark: #C4720F;
+      --text: #111827;
+      --text-sub: #4B5563;
+      --text-muted: #9CA3AF;
+      --border: #E5E7EB;
+      --border-accent: rgba(232,137,26,0.2);
+      --shadow-sm: 0 2px 16px rgba(0,0,0,0.06);
+      --shadow-md: 0 8px 32px rgba(0,0,0,0.12);
+      /* 기존 변수 호환 */
+      --gold: #E8891A;
+      --gold-light: #F5A73B;
+      --gold-pale: #FEF3E2;
+      --navy: #FFFFFF;
+      --navy-mid: #F8F9FB;
+      --navy-light: #EEF0F5;
+      --cream: #111827;
+      --white: #111827;
+      --text-dim: #9CA3AF;
+      --border-gold: rgba(232,137,26,0.2);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ───── NOISE OVERLAY ───── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ───── NAV ───── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.4rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid transparent;
+      transition: all 0.4s ease;
+    }
+    nav .nav-logo { color: #FFFFFF; }
+    nav .nav-links a { color: rgba(255,255,255,0.82); }
+    nav .nav-cta { border-color: rgba(255,255,255,0.55); color: #FFFFFF; }
+    nav.scrolled {
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    }
+    nav.scrolled .nav-logo { color: var(--text); }
+    nav.scrolled .nav-links a { color: var(--text-sub); }
+    nav.scrolled .nav-cta { border-color: var(--gold); color: var(--gold); }
+    nav.scrolled .nav-cta:hover { background: var(--gold); color: #fff; }
+    .nav-logo {
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      transition: color 0.3s;
+    }
+    .nav-logo span { color: var(--gold-light); }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--gold-light) !important; }
+
+    /* ───── DROPDOWN ───── */
+    .nav-links li { position: relative; }
+    .nav-links li.has-drop > a::after {
+      content: ' ▾';
+      font-size: 0.6rem;
+      opacity: 0.7;
+    }
+    .nav-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+      min-width: 160px;
+      padding: 0.5rem 0;
+      z-index: 200;
+      white-space: nowrap;
+    }
+    .nav-dropdown::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px; height: 10px;
+      background: #fff;
+      border-left: 1px solid var(--border);
+      border-top: 1px solid var(--border);
+      transform: translateX(-50%) rotate(45deg);
+    }
+    .nav-dropdown a {
+      display: block;
+      padding: 0.6rem 1.2rem;
+      color: var(--text-sub) !important;
+      font-size: 0.8rem !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.02em !important;
+      text-transform: none !important;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .nav-dropdown a:hover {
+      background: var(--accent-pale);
+      color: var(--accent) !important;
+      padding-left: 1.5rem;
+    }
+    .nav-links li.has-drop:hover .nav-dropdown { display: block; }
+    .nav-cta {
+      background: transparent;
+      padding: 0.55rem 1.4rem;
+      font-size: 0.78rem;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: all 0.25s;
+      border-radius: 6px;
+      border-width: 1px;
+      border-style: solid;
+    }
+
+    /* ───── HERO ───── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(20,24,48,0.78) 0%, rgba(30,38,70,0.72) 50%, rgba(20,24,48,0.82) 100%),
+        url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1600&auto=format&q=80') center/cover no-repeat;
+    }
+
+    .hero-bg-glow {
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 70vw;
+      height: 70vw;
+      background: radial-gradient(ellipse at center, rgba(200,134,10,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-bg-glow-2 {
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(ellipse at center, rgba(45,53,97,0.8) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 12rem 4rem 8rem;
+      position: relative;
+      z-index: 2;
+      grid-column: 1 / -1;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.3s;
+    }
+    .hero-eyebrow-line {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .hero-eyebrow span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--gold-light);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 900;
+      font-size: clamp(3rem, 5.5vw, 5.2rem);
+      line-height: 1.1;
+      color: #FFFFFF;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.5s;
+    }
+    .hero-title .accent { color: var(--gold-light); }
+    .hero-title .italic {
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.8;
+      max-width: 520px;
+      margin-bottom: 3rem;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.7s;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.9s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #FFFFFF;
+      border: none;
+      padding: 1rem 2.4rem;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-block;
+      letter-spacing: 0.02em;
+    }
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(232,137,26,0.35);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--cream);
+      border: none;
+      padding: 1rem 0;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 400;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: all 0.25s;
+    }
+    .btn-ghost::after {
+      content: '→';
+      transition: transform 0.25s;
+    }
+    .btn-ghost:hover { color: var(--gold-light); }
+    .btn-ghost:hover::after { transform: translateX(4px); }
+
+    .hero-right {
+      display: none;
+    }
+
+    .hero-visual {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, var(--navy) 0%, transparent 35%),
+                  linear-gradient(to top, var(--navy) 0%, transparent 30%);
+    }
+
+    /* Geometric hero decoration */
+    .hero-geo {
+      position: absolute;
+      top: 50%;
+      right: 8%;
+      transform: translateY(-50%);
+      width: 380px;
+      height: 480px;
+      opacity: 0;
+      animation: fadeIn 1.2s ease forwards 1s;
+    }
+    .hero-geo-card {
+      position: absolute;
+      border: 1px solid var(--border);
+      background: var(--navy-mid);
+    }
+    .hero-geo-card:nth-child(1) {
+      width: 280px;
+      height: 360px;
+      top: 0;
+      right: 0;
+      background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
+    }
+    .hero-geo-card:nth-child(2) {
+      width: 200px;
+      height: 260px;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(135deg, var(--navy-light), var(--navy-mid));
+      border-color: rgba(200,150,58,0.35);
+    }
+    .hero-geo-inner {
+      padding: 2rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hero-tag {
+      display: inline-block;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 0.65rem;
+      padding: 0.25rem 0.7rem;
+      letter-spacing: 0.15em;
+      font-family: 'DM Mono', monospace;
+    }
+    .hero-card-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      line-height: 1.5;
+      color: var(--white);
+    }
+    .hero-card-meta {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.1em;
+    }
+    .hero-gold-line {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      opacity: 0.3;
+    }
+
+    /* Stats strip */
+    .hero-stats {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+      padding: 1.8rem 6rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      z-index: 3;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 1.2s;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.06em;
+      font-weight: 300;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 7rem;
+      left: 6rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1.5s;
+    }
+    .scroll-indicator span {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      font-family: 'DM Mono', monospace;
+      writing-mode: vertical-rl;
+    }
+    .scroll-indicator::after {
+      content: '';
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollLine 2s ease infinite;
+    }
+
+    /* ───── SECTION SHARED ───── */
+    section { position: relative; }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+    .section-label::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .section-label span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .section-heading {
+      font-family: 'Noto Serif KR', serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.25;
+      color: var(--text);
+    }
+    .section-heading .accent { color: var(--gold); }
+
+    /* ───── PHILOSOPHY / ABOUT ───── */
+    #about {
+      padding: 10rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8rem;
+      align-items: center;
+      background: var(--bg);
+    }
+    #about::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+    }
+
+    .about-left {}
+    .about-quote {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.6rem;
+      font-weight: 500;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: 2rem;
+    }
+    .about-quote em {
+      color: var(--gold);
+      font-style: normal;
+    }
+    .about-body {
+      color: var(--text-sub);
+      line-height: 1.9;
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+
+    .about-right {
+      position: relative;
+    }
+    .profile-card {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem;
+      position: relative;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+    }
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: 2rem;
+      width: 80px;
+      height: 3px;
+      background: var(--gold);
+    }
+    .profile-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 1.5rem;
+    }
+    .profile-name {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .profile-role {
+      font-size: 0.78rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+      font-family: 'DM Mono', monospace;
+    }
+    .profile-bio {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+    .profile-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .profile-tag {
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.06em;
+    }
+
+    .profile-deco {
+      position: absolute;
+      bottom: -2rem;
+      right: -2rem;
+      width: 120px;
+      height: 120px;
+      border: 1px solid var(--border);
+      background: var(--navy-light);
+      z-index: -1;
+    }
+
+    /* ───── SERVICES ───── */
+    #services {
+      padding: 8rem 6rem;
+      background: var(--bg-alt);
+      border-top: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .services-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+      margin-bottom: 5rem;
+    }
+    .services-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.9;
+      font-weight: 300;
+      align-self: end;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .service-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      cursor: default;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: var(--gold);
+      transition: width 0.4s ease;
+      border-radius: 0 0 16px 16px;
+    }
+    .service-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.10); transform: translateY(-3px); }
+    .service-card:hover::after { width: 100%; }
+
+    .service-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      margin-bottom: 2rem;
+    }
+    .service-icon {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .service-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+    .service-desc {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      line-height: 1.9;
+      font-weight: 400;
+    }
+
+    /* ───── PROGRAMS ───── */
+    #programs {
+      padding: 10rem 6rem;
+      background: var(--bg);
+    }
+
+    .programs-header {
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+    .programs-header .section-label { justify-content: center; }
+
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+    .program-item {
+      display: flex;
+      gap: 2rem;
+      padding: 2.5rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      transition: all 0.3s;
+      cursor: default;
+      background: var(--bg-alt);
+      box-shadow: var(--shadow-sm);
+    }
+    .program-item:hover {
+      border-color: var(--accent);
+      background: var(--accent-pale);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .program-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--accent);
+      opacity: 0.3;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .program-content {}
+    .program-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+    .program-desc {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      line-height: 1.8;
+      font-weight: 400;
+    }
+    .program-tags {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .program-tag {
+      background: var(--accent-pale);
+      color: var(--accent-dark);
+      font-size: 0.68rem;
+      padding: 0.25rem 0.7rem;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.06em;
+      border-radius: 20px;
+    }
+
+    /* ───── FEATURED STRIP ───── */
+    #featured {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-alt);
+      padding: 5rem 6rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 5rem;
+      align-items: center;
+    }
+    .featured-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+    }
+    .featured-content {
+      text-align: center;
+    }
+    .featured-quote {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 500;
+      line-height: 1.7;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .featured-quote em { color: var(--gold); font-style: normal; }
+    .featured-source {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.12em;
+    }
+    .featured-deco {
+      font-family: 'Playfair Display', serif;
+      font-size: 8rem;
+      color: var(--gold);
+      opacity: 0.08;
+      line-height: 1;
+      user-select: none;
+    }
+
+    /* ───── YOUTUBE / DIGITAL LAB ───── */
+    #digitallab {
+      padding: 10rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      background: var(--bg-alt);
+    }
+    .lab-visual {
+      position: relative;
+      aspect-ratio: 16/10;
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .lab-visual-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
+    }
+    .yt-play {
+      width: 72px;
+      height: 72px;
+      background: #FF0000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-decoration: none;
+    }
+    .yt-play:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 40px rgba(255,0,0,0.4);
+    }
+    .yt-play svg { margin-left: 4px; }
+    .lab-visual-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      text-align: center;
+    }
+    .lab-visual-sub {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.1em;
+    }
+    .lab-visual::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(to right, #FF0000, #FF6B6B);
+    }
+
+    .lab-content {}
+    .lab-content .section-heading { margin-bottom: 1.5rem; }
+    .lab-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.9;
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+    }
+    .lab-features {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .lab-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.2rem;
+      border: 1px solid var(--border);
+      transition: border-color 0.25s;
+    }
+    .lab-feature:hover { border-color: var(--gold); }
+    .lab-feature-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .lab-feature-text {}
+    .lab-feature-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.2rem;
+    }
+    .lab-feature-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    /* ───── ACHIEVEMENTS (stats counter) — used by #stats ───── */
+    #stats {
+      padding: 8rem 6rem;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    #stats .section-heading { color: var(--text); }
+    #stats .section-label span { color: var(--accent); }
+    #stats .section-label::before { background: var(--accent); }
+    .achievements-header {
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .achievement-item {
+      padding: 3rem 2rem;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      position: relative;
+      background: var(--bg);
+      transition: background 0.3s;
+    }
+    .achievement-item:hover { background: var(--accent-pale); }
+    .achievement-item:last-child { border-right: none; }
+    .achievement-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 3px;
+      background: var(--accent);
+      transition: width 0.6s ease;
+    }
+    .achievement-item:hover::before { width: 60%; }
+    .achievement-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .achievement-label {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    /* ───── INSTRUCTORS ───── */
+    #instructors {
+      padding: 10rem 6rem;
+      background: var(--bg-alt);
+      border-top: none;
+    }
+    .instructors-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+    .instructors-count {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+    }
+    .instructors-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+    }
+    .instructor-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 1.6rem;
+      position: relative;
+      transition: all 0.28s;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    .instructor-card:hover {
+      box-shadow: 0 8px 28px rgba(0,0,0,0.10);
+      transform: translateY(-3px);
+    }
+    .instructor-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+    .instructor-card:hover {
+      box-shadow: 0 8px 32px rgba(181,113,26,0.12);
+      transform: translateY(-3px);
+    }
+    .instructor-card:hover::before {
+      transform: scaleX(1);
+    }
+    .instructor-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 1.2rem;
+      flex-shrink: 0;
+    }
+    .instructor-name {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+    .instructor-contact {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.8rem;
+      min-height: 1.1rem;
+    }
+    .instructor-fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.8rem;
+    }
+    .instructor-field {
+      background: var(--accent-pale);
+      color: var(--accent-dark);
+      font-size: 0.65rem;
+      padding: 0.25rem 0.65rem;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.05em;
+      border-radius: 20px;
+    }
+    .instructor-title-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.55rem;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ───── TESTIMONIAL ───── */
+    #testimonials {
+      padding: 10rem 6rem;
+      background: var(--bg);
+    }
+    .testimonials-header {
+      margin-bottom: 4rem;
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .testimonial-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      position: relative;
+      transition: all 0.3s;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      background: #FFFFFF;
+    }
+    .testimonial-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.10);
+    }
+    .testimonial-card::before {
+      content: '"';
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      color: var(--gold);
+      opacity: 0.15;
+      line-height: 1;
+    }
+    .testimonial-text {
+      font-size: 0.92rem;
+      color: var(--text-sub);
+      line-height: 1.9;
+      font-weight: 400;
+      margin-bottom: 2rem;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .testimonial-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--navy);
+      font-family: 'Noto Serif KR', serif;
+    }
+    .testimonial-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .testimonial-role {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.06em;
+    }
+
+    /* ───── CTA BANNER ───── */
+    #cta {
+      margin: 0 6rem 8rem;
+      border: none;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+      padding: 5rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(to right, rgba(255,255,255,0.4), rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+    }
+    #cta::after {
+      content: '이룸';
+      position: absolute;
+      right: 3rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Noto Serif KR', serif;
+      font-size: 14rem;
+      font-weight: 900;
+      color: var(--gold);
+      opacity: 0.06;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .cta-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+    }
+    .cta-desc {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.8);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+    .cta-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex-shrink: 0;
+    }
+    #cta .btn-primary {
+      background: #FFFFFF;
+      color: var(--accent);
+    }
+    #cta .btn-primary:hover {
+      background: rgba(255,255,255,0.9);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    }
+    #cta .btn-ghost {
+      color: rgba(255,255,255,0.9);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 50px;
+      padding: 0.85rem 1.8rem;
+    }
+    #cta .btn-ghost:hover {
+      color: #FFFFFF;
+      border-color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.1);
+    }
+
+    /* ───── FOOTER ───── */
+    footer {
+      background: var(--bg-dark);
+      border-top: none;
+      padding: 4rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 4rem;
+    }
+    .footer-brand {}
+    .footer-logo {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 1rem;
+    }
+    .footer-logo span { color: var(--gold); }
+    .footer-tagline {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+    .footer-links h4 {
+      font-size: 0.9rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 1.5rem;
+    }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .footer-links a {
+      color: #b0b8c8;
+      font-size: 0.95rem;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 300;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold-light); }
+    .footer-contact h4 {
+      font-size: 0.9rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 1.5rem;
+    }
+    .footer-contact-item {
+      display: flex;
+      gap: 0.6rem;
+      margin-bottom: 0.8rem;
+      align-items: flex-start;
+    }
+    .footer-contact-label {
+      font-size: 0.8rem;
+      color: var(--gold-light);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.08em;
+      min-width: 60px;
+      flex-shrink: 0;
+      padding-top: 0.1rem;
+    }
+    .footer-contact-value {
+      font-size: 0.95rem;
+      color: #b0b8c8;
+      font-weight: 400;
+    }
+    .footer-bottom {
+      background: rgba(0,0,0,0.25);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 1.5rem 6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy {
+      font-size: 0.85rem;
+      color: #8a94a8;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.06em;
+    }
+    .footer-social {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .footer-social a {
+      font-size: 0.85rem;
+      color: #8a94a8;
+      text-decoration: none;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+    .footer-social a:hover { color: var(--gold); }
+
+    /* ───── 오시는 길 ───── */
+    #location {
+      background: var(--bg-alt);
+      padding: 7rem 6rem;
+    }
+    .location-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .location-info { display: flex; flex-direction: column; gap: 2.5rem; }
+    .location-info .section-label { margin-bottom: 0; }
+    .location-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .location-rows { display: flex; flex-direction: column; gap: 1.2rem; }
+    .location-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .location-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--accent-pale);
+      color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0; margin-top: 2px;
+    }
+    .location-row-text { display: flex; flex-direction: column; gap: 0.2rem; }
+    .location-row-label {
+      font-size: 0.72rem; color: var(--text-muted);
+      font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .location-row-value { font-size: 0.95rem; color: var(--text); font-weight: 500; line-height: 1.6; }
+    .location-map-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--accent); color: #fff;
+      padding: 0.85rem 1.6rem; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 600; text-decoration: none;
+      transition: all 0.25s; width: fit-content;
+    }
+    .location-map-btn:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,137,26,0.3); }
+    .location-map {
+      border-radius: 16px; overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      border: 1px solid var(--border);
+    }
+    .location-map iframe { display: block; width: 100%; height: 420px; border: none; }
+    @media (max-width: 768px) {
+      #location { padding: 4rem 2rem; }
+      .location-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    /* ───── ANIMATIONS ───── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes scrollLine {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* Counter animation */
+    .counter { transition: all 0.1s; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 8rem 2rem 4rem; }
+      .hero-geo { display: none; }
+      .hero-stats { padding: 1.5rem 2rem; grid-template-columns: repeat(2, 1fr); }
+      #about, #digitallab { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 3rem; }
+      #services { padding: 5rem 2rem; }
+      .services-header { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      #programs { padding: 5rem 2rem; }
+      .programs-grid { grid-template-columns: 1fr; }
+      #featured { padding: 3rem 2rem; grid-template-columns: 1fr; }
+      .featured-label { display: none; }
+      .featured-deco { display: none; }
+      #achievements { padding: 5rem 2rem; }
+      .achievements-grid { grid-template-columns: repeat(2, 1fr); }
+      #instructors { padding: 5rem 2rem; }
+      .instructors-grid { grid-template-columns: repeat(2, 1fr); }
+      .instructors-header { grid-template-columns: 1fr; }
+      #testimonials { padding: 5rem 2rem; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      #cta { margin: 0 2rem 4rem; padding: 3rem 2rem; grid-template-columns: 1fr; }
+      footer { padding: 3rem 2rem; grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-bottom { padding: 1.5rem 2rem; flex-direction: column; gap: 1rem; text-align: center; }
+      .books-grid { grid-template-columns: 1fr 1fr; }
+      .achievements-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ───── BOOKS ───── */
+    #books {
+      padding: 8rem 6rem;
+      background: var(--bg);
+    }
+    .books-intro {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 4.5rem;
+    }
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.6rem;
+      max-width: 1200px;
+      margin: 0 auto 2.5rem;
+    }
+    .book-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 1.6rem;
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    }
+    .book-card:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      transform: translateY(-4px);
+    }
+    .book-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(181,113,26,0.12);
+    }
+    .book-card.featured {
+      border-color: var(--gold);
+      background: var(--gold-pale);
+    }
+    .book-badge {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.64rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      margin-bottom: 1.2rem;
+      border: none;
+      border-radius: 20px;
+      background: var(--gold-pale);
+      color: var(--gold);
+      align-self: flex-start;
+      font-weight: 600;
+    }
+    .book-card.featured .book-badge {
+      background: var(--gold);
+      color: white;
+      border-color: var(--gold);
+    }
+    .book-cover {
+      width: 100%;
+      height: 160px;
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--navy-light);
+    }
+    .book-cover img {
+      height: 100%;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+    .book-card:hover .book-cover img {
+      transform: scale(1.04);
+    }
+    .book-cover-multi {
+      gap: 6px;
+      align-items: flex-end;
+    }
+    .book-cover-multi img {
+      flex: 1;
+      height: 100%;
+      width: 0;
+      object-fit: contain;
+      object-position: bottom;
+    }
+    /* fallback spine (no image) */
+    .book-spine {
+      width: 100%;
+      height: 160px;
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-left: 4px solid var(--gold);
+      background: linear-gradient(135deg, rgba(181,113,26,0.06), rgba(181,113,26,0.02));
+      padding: 1rem;
+      text-align: center;
+      line-height: 1.6;
+    }
+    .book-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+      flex: 1;
+    }
+    .book-meta {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .book-meta-item {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: 'DM Mono', monospace;
+    }
+    .book-meta-item + .book-meta-item::before {
+      content: '·';
+      margin-right: 0.6rem;
+    }
+    .books-more {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    .books-more-note {
+      display: inline-block;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.7rem 2rem;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.06em;
+    }
+
+    /* ───── ACHIEVEMENTS (2025 교육성과) ───── */
+    #achievements {
+      padding: 8rem 6rem;
+      background: var(--bg-alt);
+    }
+    .achievements-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .achievements-years {
+      display: flex;
+      gap: 0.8rem;
+    }
+    .year-tab {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      padding: 0.45rem 1.2rem;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      background: transparent;
+      cursor: default;
+    }
+    .year-tab.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: var(--gold-pale);
+    }
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .achievement-year-block {
+      background: var(--navy);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+    }
+    .achievement-year-block.highlight {
+      border-color: var(--gold);
+    }
+    .ach-year-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+      line-height: 1;
+    }
+    .ach-subtitle {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.1em;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .ach-items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .ach-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .ach-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: 0.45rem;
+      flex-shrink: 0;
+    }
+    .ach-text {
+      font-size: 0.88rem;
+      color: var(--cream);
+      line-height: 1.7;
+      font-weight: 400;
+    }
+    .ach-text strong {
+      color: var(--gold);
+      font-weight: 700;
+    }
+    .ach-stats-row {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .ach-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .ach-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--cream);
+    }
+    .ach-stat-label {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.08em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a class="nav-logo" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" style="text-decoration:none;cursor:pointer;">교육컨텐츠연구소 <span>이룸</span></a>
+    <ul class="nav-links">
+      <li class="has-drop">
+        <a href="#about">이룸 소개</a>
+        <div class="nav-dropdown">
+          <a href="#about">교육이념 &amp; 비전</a>
+          <a href="#about">대표 소개</a>
+          <a href="#instructors">강사진</a>
+          <a href="#location">오시는 길</a>
+        </div>
+      </li>
+      <li class="has-drop">
+        <a href="#programs">프로그램</a>
+        <div class="nav-dropdown">
+          <a href="#services">IT·디지털 교육</a>
+          <a href="#services">스마트워크 역량 강화</a>
+          <a href="#services">교육 콘텐츠 개발</a>
+          <a href="#services">자격증 취득 과정</a>
+          <a href="#services">교사 지원·나눔 교육</a>
+        </div>
+      </li>
+      <li class="has-drop">
+        <a href="#digitallab">디지털랩</a>
+        <div class="nav-dropdown">
+          <a href="#digitallab">유튜브 채널</a>
+          <a href="#digitallab">온라인 콘텐츠</a>
+          <a href="#featured">추천 콘텐츠</a>
+        </div>
+      </li>
+      <li><a href="#books">저서</a></li>
+      <li><a href="#achievements">성과</a></li>
+      <li><a href="#testimonials">후기</a></li>
+    </ul>
+    <button class="nav-cta" onclick="openApplyModal()">교육 문의하기</button>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg-glow"></div>
+    <div class="hero-bg-glow-2"></div>
+
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span>Education Contents Research Institute</span>
+      </div>
+
+      <h1 class="hero-title">
+        배우고 나눔을<br />
+        <span class="accent italic">실천하는</span><br />
+        교육의 힘
+      </h1>
+
+      <p class="hero-subtitle">
+        교육컨텐츠연구소 이룸은 디지털 기반 교육 콘텐츠 개발부터<br />
+        스마트워크 역량 강화, 맞춤형 교육 컨설팅까지—<br />
+        배움이 삶을 바꾸는 경험을 설계합니다.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn-primary" href="#services">서비스 알아보기</a>
+        <a class="btn-ghost" href="#digitallab">디지털랩 바로가기</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <!-- Geometric cards -->
+      <div class="hero-geo">
+        <div class="hero-geo-card">
+          <div class="hero-geo-inner">
+            <div>
+              <div class="hero-tag">IREUM · 이룸</div>
+            </div>
+            <div>
+              <div class="hero-card-title">교육이<br />세상을 바꿉니다</div>
+            </div>
+            <div class="hero-card-meta">EST. JEONJU · KOREA</div>
+          </div>
+        </div>
+        <div class="hero-geo-card">
+          <div class="hero-geo-inner">
+            <div class="hero-tag">DIGITAL LAB</div>
+            <div style="color:var(--gold-light);font-size:2rem;">◎</div>
+            <div class="hero-card-meta">SMART WORK · IT EDU</div>
+          </div>
+        </div>
+        <div class="hero-gold-line"></div>
+      </div>
+    </div>
+
+    <!-- Stats strip -->
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-number counter" data-target="500">0</span>
+        <span class="stat-label">누적 교육 기관 수</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number counter" data-target="10000">0</span>
+        <span class="stat-label">교육 수료 인원</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number counter" data-target="30">0</span>
+        <span class="stat-label">교육 경력 (년)</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number counter" data-target="98">0</span>
+        <span class="stat-label">만족도 (%)</span>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <span>scroll</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-left reveal">
+      <div class="section-label"><span>ABOUT IREUM</span></div>
+      <p class="about-quote">
+        "<em>이룸</em>"은 목표에 도달하고<br />
+        꿈을 이루는 것에서 시작합니다.<br />
+        우리는 교육으로 그 여정을 함께합니다.
+      </p>
+      <p class="about-body">
+        교육컨텐츠연구소 이룸은 단순한 강의를 넘어 교육 생태계를 설계합니다.
+        기업, 공공기관, 대학교, 지역사회와 함께 맞춤형 교육 콘텐츠를 개발하고,
+        디지털 전환 시대에 필요한 스마트워크 역량을 전달합니다.<br /><br />
+        AI 시대가 본격화되는 지금, 이룸은 생성형 AI 활용 교육과 AI 융합 역량 개발을
+        통해 누구나 변화에 앞서갈 수 있도록 돕습니다.
+        기술을 두려워하지 않고 일상과 업무에서 AI를 자신 있게 활용하는 힘,
+        이룸이 함께 만들어갑니다.<br /><br />
+        "와있는 미래" 교사지원교육협동조합과 함께 교육 현장의 변화를 선도하며,
+        배움과 나눔의 선순환을 실천하는 교육 공동체를 만들어갑니다.
+      </p>
+    </div>
+
+    <div class="about-right reveal reveal-delay-2">
+      <div class="profile-card">
+        <div class="profile-avatar">장</div>
+        <div class="profile-name">장미희 대표</div>
+        <div class="profile-role">DIRECTOR · JANG MI-HEE</div>
+        <div class="profile-bio">
+          전북대학교 컴퓨터공학과 박사 수료<br />
+          교육컨텐츠연구소 이룸 대표<br />
+          대학·기업·기관·지자체 IT 교육 강의<br />
+          지자체 정보화 위원회 ICT 위원<br />
+          교육 콘텐츠 개발 및 교재 출판
+        </div>
+        <div class="profile-tags">
+          <span class="profile-tag">IT교육</span>
+          <span class="profile-tag">스마트워크</span>
+          <span class="profile-tag">교육컨설팅</span>
+          <span class="profile-tag">디지털전환</span>
+          <span class="profile-tag">콘텐츠개발</span>
+          <span class="profile-tag">강의</span>
+        </div>
+      </div>
+      <div class="profile-deco"></div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="services-header">
+      <div class="reveal">
+        <div class="section-label"><span>WHAT WE DO</span></div>
+        <h2 class="section-heading">이룸이 제공하는<br /><span class="accent">교육 솔루션</span></h2>
+      </div>
+      <p class="services-desc reveal reveal-delay-2">
+        기관의 목표와 대상자의 수준에 맞게 설계된 교육 프로그램으로
+        실질적인 변화를 만들어냅니다. 오프라인 강의부터 콘텐츠 제작,
+        컨설팅까지 교육의 전 과정을 함께합니다.
+      </p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-number">01</div>
+        <div class="service-icon">💡</div>
+        <div class="service-title">IT·디지털 교육</div>
+        <div class="service-desc">
+          오피스 활용, 정보화 교육, 디지털 리터러시 향상 프로그램.
+          기업·기관·지자체 맞춤형으로 실무 중심 커리큘럼을 구성합니다.
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-number">02</div>
+        <div class="service-icon">🚀</div>
+        <div class="service-title">스마트워크 역량 강화</div>
+        <div class="service-desc">
+          AI 도구 활용, 업무 자동화, 협업 플랫폼 교육으로 조직의
+          생산성을 높이는 스마트워크 트레이닝을 제공합니다.
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-number">03</div>
+        <div class="service-icon">📚</div>
+        <div class="service-title">교육 콘텐츠 개발</div>
+        <div class="service-desc">
+          기관 특성에 맞는 교재 개발, e-러닝 콘텐츠 제작, 교육과정
+          설계까지 교육 자산을 체계적으로 구축합니다.
+        </div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-number">04</div>
+        <div class="service-icon">🎓</div>
+        <div class="service-title">자격증 취득 과정</div>
+        <div class="service-desc">
+          컴퓨터 활용능력, ITQ, GTQ, AI융합지도사, AI창업지도사, AI-POT 등
+          각종 IT·AI 자격증 취득을 위한 체계적인 준비 과정과 실전 훈련을 제공합니다.
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-number">05</div>
+        <div class="service-icon">🔍</div>
+        <div class="service-title">교육 컨설팅</div>
+        <div class="service-desc">
+          교육 체계 진단, 연간 교육계획 수립, 교육 효과성 평가까지
+          기관의 교육 운영을 전략적으로 지원합니다.
+        </div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-number">06</div>
+        <div class="service-icon">🤝</div>
+        <div class="service-title">교사 지원·나눔 교육</div>
+        <div class="service-desc">
+          "와있는 미래" 교사지원협동조합을 통해 교육 현장을 지원하고,
+          지역사회와 함께하는 나눔 교육 프로그램을 운영합니다.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMS -->
+  <section id="programs">
+    <div class="programs-header reveal">
+      <div class="section-label"><span>PROGRAMS</span></div>
+      <h2 class="section-heading">주요 교육 <span class="accent">프로그램</span></h2>
+    </div>
+
+    <div class="programs-grid">
+      <div class="program-item reveal">
+        <div class="program-num">01</div>
+        <div class="program-content">
+          <div class="program-title">오피스 마스터 과정</div>
+          <div class="program-desc">한글·워드·엑셀·파워포인트 실무 활용부터 고급 기능까지. 업무 효율을 극대화하는 실전 교육 프로그램.</div>
+          <div class="program-tags">
+            <span class="program-tag">MS Office</span>
+            <span class="program-tag">한글</span>
+            <span class="program-tag">실무</span>
+          </div>
+        </div>
+      </div>
+      <div class="program-item reveal reveal-delay-1">
+        <div class="program-num">02</div>
+        <div class="program-content">
+          <div class="program-title">AI 활용 스마트워크</div>
+          <div class="program-desc">ChatGPT, 생성형 AI 도구를 업무에 바로 적용하는 실습 중심 트레이닝. 디지털 전환의 첫 걸음.</div>
+          <div class="program-tags">
+            <span class="program-tag">AI</span>
+            <span class="program-tag">ChatGPT</span>
+            <span class="program-tag">자동화</span>
+          </div>
+        </div>
+      </div>
+      <div class="program-item reveal reveal-delay-2">
+        <div class="program-num">03</div>
+        <div class="program-content">
+          <div class="program-title">정보화 역량 강화 교육</div>
+          <div class="program-desc">지자체·기관 공무원 및 직원 대상 ICT 역량 향상. 디지털 행정 서비스 활용 능력을 키웁니다.</div>
+          <div class="program-tags">
+            <span class="program-tag">공공기관</span>
+            <span class="program-tag">ICT</span>
+            <span class="program-tag">디지털행정</span>
+          </div>
+        </div>
+      </div>
+      <div class="program-item reveal reveal-delay-1">
+        <div class="program-num">04</div>
+        <div class="program-content">
+          <div class="program-title">IT 자격증 취득 과정</div>
+          <div class="program-desc">컴활 1·2급, ITQ, GTQ, 워드프로세서, AI융합지도사, AI창업지도사, AI-POT 등 취업·승진에 꼭 필요한 자격증 취득 완성 과정.</div>
+          <div class="program-tags">
+            <span class="program-tag">컴활</span>
+            <span class="program-tag">ITQ</span>
+            <span class="program-tag">AI융합지도사</span>
+            <span class="program-tag">AI-POT</span>
+            <span class="program-tag">자격증</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE STRIP -->
+  <section id="featured">
+    <div class="featured-label">PHILOSOPHY</div>
+    <div class="featured-content reveal">
+      <p class="featured-quote">
+        지식은 나눌수록 커집니다.<br />
+        <em>배움과 나눔의 선순환</em>—<br />
+        이것이 이룸의 철학입니다.
+      </p>
+      <div class="featured-source">— 교육컨텐츠연구소 이룸 · 장미희 대표</div>
+    </div>
+    <div class="featured-deco">"</div>
+  </section>
+
+  <!-- DIGITAL LAB -->
+  <section id="digitallab">
+    <div class="lab-visual reveal">
+      <div class="lab-visual-inner">
+        <a class="yt-play" href="https://www.youtube.com/channel/UCsGHAIdj3cmMx6KXr3RbIGg" target="_blank" rel="noopener">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </a>
+        <div class="lab-visual-title">장미희의 디지털랩</div>
+        <div class="lab-visual-sub">CHANGEMIHEE'S DIGITAL LAB</div>
+      </div>
+    </div>
+
+    <div class="lab-content reveal reveal-delay-2">
+      <div class="section-label"><span>DIGITAL LAB</span></div>
+      <h2 class="section-heading">유튜브로 만나는<br /><span class="accent">디지털랩</span></h2>
+      <p class="lab-desc">
+        "장미희의 디지털랩"은 누구나 쉽게 디지털 역량을 키울 수 있도록
+        오피스 활용법, 스마트워크 팁, 자격증 취득 노하우를 무료로 공유하는 채널입니다.
+        배움을 나누는 이룸의 철학을 온라인에서도 실천합니다.
+      </p>
+      <div class="lab-features">
+        <div class="lab-feature">
+          <div class="lab-feature-icon">📊</div>
+          <div class="lab-feature-text">
+            <div class="lab-feature-title">오피스 활용 실전 강의</div>
+            <div class="lab-feature-desc">엑셀, 파워포인트, 한글 실무 팁을 영상으로</div>
+          </div>
+        </div>
+        <div class="lab-feature">
+          <div class="lab-feature-icon">🤖</div>
+          <div class="lab-feature-text">
+            <div class="lab-feature-title">AI·디지털 트렌드 소개</div>
+            <div class="lab-feature-desc">최신 디지털 도구와 트렌드를 쉽게 설명</div>
+          </div>
+        </div>
+        <div class="lab-feature">
+          <div class="lab-feature-icon">🏆</div>
+          <div class="lab-feature-text">
+            <div class="lab-feature-title">자격증 취득 전략</div>
+            <div class="lab-feature-desc">컴활·ITQ 합격을 위한 핵심 포인트 공개</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section id="stats">
+    <div class="achievements-header reveal">
+      <div class="section-label" style="justify-content:center;"><span>TRACK RECORD</span></div>
+      <h2 class="section-heading" style="text-align:center;">이룸이 만들어 온<br /><span class="accent">숫자로 보는 성과</span></h2>
+    </div>
+    <div class="achievements-grid">
+      <div class="achievement-item reveal">
+        <span class="achievement-number counter" data-target="500">0</span>
+        <div class="achievement-label">교육 기관<br />파트너</div>
+      </div>
+      <div class="achievement-item reveal reveal-delay-1">
+        <span class="achievement-number counter" data-target="10000">0</span>
+        <div class="achievement-label">누적 교육<br />수료 인원</div>
+      </div>
+      <div class="achievement-item reveal reveal-delay-2">
+        <span class="achievement-number counter" data-target="200">0</span>
+        <div class="achievement-label">개발 완료<br />교육 콘텐츠</div>
+      </div>
+      <div class="achievement-item reveal reveal-delay-3">
+        <span class="achievement-number counter" data-target="15">0</span>
+        <div class="achievement-label">전문 교육<br />경력(년)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKS -->
+  <section id="books">
+    <div class="books-intro reveal">
+      <div class="section-label"><span>PUBLICATIONS</span></div>
+      <h2 class="section-heading">장미희 대표<br /><span class="accent">저서 소개</span></h2>
+      <p class="section-desc">30년간의 교육 현장 경험을 담아 집필한 실용 도서들</p>
+    </div>
+
+    <div class="books-grid">
+
+      <!-- 2027 집필 중 -->
+      <div class="book-card reveal" style="border-color:var(--gold);background:linear-gradient(135deg,#fffdf7,#fff8ec);">
+        <div class="book-badge" style="background:var(--gold);color:#fff;border-color:var(--gold);">집필 중 · 2027</div>
+        <div class="book-spine" style="border-left-color:var(--gold-light);background:linear-gradient(135deg,rgba(181,113,26,0.13),rgba(181,113,26,0.04));font-weight:600;color:var(--cream);">AI-POT 2급<br/>프롬프트 활용능력<br/>(출간 예정)</div>
+        <div class="book-title">AI-POT 2급<br/><span style="font-size:0.78rem;font-weight:400;">프롬프트활용능력 자격</span></div>
+        <div class="book-meta">
+          <span class="book-meta-item">박문각</span>
+          <span class="book-meta-item">2027 예정</span>
+          <span class="book-meta-item">한국생산성본부</span>
+        </div>
+      </div>
+
+      <!-- 2026 최신작 -->
+      <div class="book-card featured reveal reveal-delay-1">
+        <div class="book-badge">최신작 · 2026</div>
+        <div class="book-cover">
+          <img src="https://image.yes24.com/goods/193167019/L" alt="생성형 AI 치트키" loading="lazy" />
+        </div>
+        <div class="book-title">생성형 AI 치트키</div>
+        <div class="book-meta">
+          <span class="book-meta-item">박문각</span>
+          <span class="book-meta-item">2026.07</span>
+          <span class="book-meta-item">AI 활용</span>
+        </div>
+      </div>
+
+      <!-- 2020 동영상 -->
+      <div class="book-card reveal reveal-delay-2">
+        <div class="book-badge">영상 제작 · 2020</div>
+        <div class="book-cover">
+          <img src="https://image.yes24.com/goods/90334738/L" alt="내 동영상으로 유튜버되기" loading="lazy" />
+        </div>
+        <div class="book-title">내 동영상으로 유튜버되기</div>
+        <div class="book-meta">
+          <span class="book-meta-item">교학사</span>
+          <span class="book-meta-item">2020</span>
+        </div>
+      </div>
+
+      <!-- 2020 동영상 2 -->
+      <div class="book-card reveal reveal-delay-3">
+        <div class="book-badge">영상 편집 · 2020</div>
+        <div class="book-cover">
+          <img src="https://image.yes24.com/goods/89524353/L" alt="나만의 동영상 제작하기" loading="lazy" />
+        </div>
+        <div class="book-title">나만의 동영상 제작하기</div>
+        <div class="book-meta">
+          <span class="book-meta-item">교학사</span>
+          <span class="book-meta-item">2020</span>
+        </div>
+      </div>
+
+      <!-- 2019 한글 -->
+      <div class="book-card reveal">
+        <div class="book-badge">오케이클릭 · 2019</div>
+        <div class="book-cover">
+          <img src="https://image.yes24.com/goods/74297645/L" alt="한글 2018로 문서 꾸미기" loading="lazy" />
+        </div>
+        <div class="book-title">오케이클릭시리즈 한글 2018</div>
+        <div class="book-meta">
+          <span class="book-meta-item">교학사</span>
+          <span class="book-meta-item">2019</span>
+          <span class="book-meta-item">워드프로세서</span>
+        </div>
+      </div>
+
+      <!-- 2018 오케이클릭 -->
+      <div class="book-card reveal reveal-delay-1">
+        <div class="book-badge">오케이클릭 · 2018</div>
+        <div class="book-cover book-cover-multi">
+          <img src="https://image.yes24.com/goods/59383492/L" alt="오케이클릭시리즈 엑셀 2016" loading="lazy" />
+          <img src="https://image.yes24.com/goods/59499323/L" alt="오케이클릭시리즈 파워포인트 2016" loading="lazy" />
+        </div>
+        <div class="book-title">오케이클릭시리즈 엑셀·파워포인트 2016</div>
+        <div class="book-meta">
+          <span class="book-meta-item">교학사</span>
+          <span class="book-meta-item">2018</span>
+          <span class="book-meta-item">오피스 실무</span>
+        </div>
+      </div>
+
+      <!-- 2017 마이러브 -->
+      <div class="book-card reveal reveal-delay-2">
+        <div class="book-badge">마이러브 · 2017</div>
+        <div class="book-cover book-cover-multi">
+          <img src="https://image.yes24.com/goods/38260452/L" alt="마이러브 엑셀 2016" loading="lazy" />
+          <img src="https://image.yes24.com/goods/41048213/L" alt="마이러브 파워포인트 2016" loading="lazy" />
+        </div>
+        <div class="book-title">마이러브시리즈 엑셀·파워포인트 2016</div>
+        <div class="book-meta">
+          <span class="book-meta-item">교학사</span>
+          <span class="book-meta-item">2017</span>
+          <span class="book-meta-item">오피스 실무</span>
+        </div>
+      </div>
+
+      <!-- ITQ 시리즈 묶음 -->
+      <div class="book-card reveal reveal-delay-3">
+        <div class="book-badge">ITQ 시리즈 · 2013~2020</div>
+        <div class="book-cover book-cover-multi">
+          <img src="https://image.yes24.com/goods/90582716/L" alt="ITQ 한글 2016" loading="lazy" />
+          <img src="https://image.yes24.com/goods/90582694/L" alt="ITQ 엑셀 2016" loading="lazy" />
+          <img src="https://image.yes24.com/goods/90582702/L" alt="ITQ 파워포인트 2016" loading="lazy" />
+        </div>
+        <div class="book-title">ITQ 한글 / 엑셀 / 파워포인트 시리즈</div>
+        <div class="book-meta">
+          <span class="book-meta-item">교학사</span>
+          <span class="book-meta-item">2013–2020</span>
+          <span class="book-meta-item">자격증 수험서</span>
+        </div>
+      </div>
+
+      <!-- ITQ 2013 시리즈 (2007 버전) -->
+      <div class="book-card reveal">
+        <div class="book-badge">ITQ 2013 시리즈 · 교학사</div>
+        <div class="book-cover book-cover-multi">
+          <img src="https://image.yes24.com/goods/11411918/L" alt="ITQ 한글 2007" loading="lazy" />
+          <img src="https://image.yes24.com/goods/15820969/L" alt="ITQ 엑셀 2007" loading="lazy" />
+          <img src="https://image.yes24.com/goods/11411990/L" alt="ITQ 파워포인트 2007" loading="lazy" />
+        </div>
+        <div class="book-title">ITQ 한글 · 엑셀 · 파워포인트<br><span style="font-size:0.9em;font-weight:500;">2007 버전 시리즈</span></div>
+        <div class="book-meta">
+          <span class="book-meta-item">교학사</span>
+          <span class="book-meta-item">2013–2015</span>
+          <span class="book-meta-item">자격증 수험서</span>
+        </div>
+      </div>
+
+      <!-- MOS 2003 -->
+      <div class="book-card reveal">
+        <div class="book-badge">MOS 2003 · 이한출판사</div>
+        <div class="book-cover book-cover-multi">
+          <img src="https://image.yes24.com/goods/2790502/L" alt="MOS 따라잡기 Word 2003 Expert" loading="lazy" />
+          <img src="https://image.yes24.com/goods/2780931/L" alt="MOS 따라잡기 PowerPoint 2003 Core" loading="lazy" />
+        </div>
+        <div class="book-title">MOS 따라잡기 Word · PowerPoint 2003</div>
+        <div class="book-meta">
+          <span class="book-meta-item">이한출판사</span>
+          <span class="book-meta-item">2007</span>
+          <span class="book-meta-item">MOS 자격증</span>
+        </div>
+      </div>
+
+      <!-- MOS 2007 -->
+      <div class="book-card reveal reveal-delay-1">
+        <div class="book-badge">MOS 2007 · 이한출판사</div>
+        <div class="book-cover book-cover-multi">
+          <img src="https://image.yes24.com/goods/4164928/L" alt="MOS 따라잡기 Word 2007" loading="lazy" />
+          <img src="https://image.yes24.com/goods/4164923/L" alt="MOS 따라잡기 PowerPoint 2007" loading="lazy" />
+        </div>
+        <div class="book-title">MOS 따라잡기 Word · PowerPoint 2007</div>
+        <div class="book-meta">
+          <span class="book-meta-item">이한출판사</span>
+          <span class="book-meta-item">2008</span>
+          <span class="book-meta-item">MOS 자격증</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="books-more reveal">
+      <div class="books-more-note">MOS · ITQ · 오피스 활용 · AI 교재 포함 총 20여 종 출간</div>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements">
+    <div class="achievements-header reveal">
+      <div>
+        <div class="section-label"><span>TRACK RECORD</span></div>
+        <h2 class="section-heading">주요<br /><span class="accent">교육 성과</span></h2>
+      </div>
+      <div class="achievements-years">
+        <div class="year-tab">2025</div>
+        <div class="year-tab active">2026</div>
+      </div>
+    </div>
+
+    <div class="achievements-grid">
+
+      <div class="achievement-year-block reveal">
+        <div class="ach-year-label">2025</div>
+        <div class="ach-subtitle">AI 리터러시 교육 본격 확대</div>
+        <ul class="ach-items">
+          <li class="ach-item">
+            <div class="ach-dot"></div>
+            <div class="ach-text">지방자치인재개발원 · 캠틱종합기술원 등 <strong>공공기관 AI 교육</strong> 집중 진행</div>
+          </li>
+          <li class="ach-item">
+            <div class="ach-dot"></div>
+            <div class="ach-text">ChatGPT · Gemini 활용 교육 과정 개발 및 전국 순회 강의</div>
+          </li>
+          <li class="ach-item">
+            <div class="ach-dot"></div>
+            <div class="ach-text">전북 지역 <strong>디지털 역량 강화</strong> 교육 사업 총괄 기획</div>
+          </li>
+          <li class="ach-item">
+            <div class="ach-dot"></div>
+            <div class="ach-text">유튜브 채널 <strong>장미희의 디지털랩</strong> AI 활용 콘텐츠 시리즈 연재</div>
+          </li>
+          <li class="ach-item">
+            <div class="ach-dot"></div>
+            <div class="ach-text">기업 및 공공기관 맞춤형 <strong>AI 전환 컨설팅</strong> 프로그램 론칭</div>
+          </li>
+        </ul>
+        <div class="ach-stats-row">
+          <div class="ach-stat">
+            <div class="ach-stat-num">80+</div>
+            <div class="ach-stat-label">강의 횟수</div>
+          </div>
+          <div class="ach-stat">
+            <div class="ach-stat-num">1,200+</div>
+            <div class="ach-stat-label">수료 인원</div>
+          </div>
+          <div class="ach-stat">
+            <div class="ach-stat-num">40+</div>
+            <div class="ach-stat-label">협력 기관</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="achievement-year-block highlight reveal reveal-delay-1">
+        <div class="ach-year-label">2026</div>
+        <div class="ach-subtitle">생성형 AI 교육 선도 기관 도약</div>
+        <ul class="ach-items">
+          <li class="ach-item">
+            <div class="ach-dot"></div>
+            <div class="ach-text"><strong>『생성형 AI 치트키』</strong> 출간 — ChatGPT · Gemini · NotebookLM 실전 매뉴얼 (박문각, 2026.07)</div>
+          </li>
+          <li class="ach-item">
+            <div class="ach-dot"></div>
+            <div class="ach-text">NotebookLM · Claude AI 활용 교육 신규 과정 개발 및 운영</div>
+          </li>
+          <li class="ach-item">
+            <div class="ach-dot"></div>
+            <div class="ach-text">전북대학교 · 전주대학교 등 <strong>지역 대학 AI 교육</strong> 협력 강화</div>
+          </li>
+          <li class="ach-item">
+            <div class="ach-dot"></div>
+            <div class="ach-text">협업 강사진 13인 체계로 <strong>전국 단위 교육 서비스</strong> 확장</div>
+          </li>
+          <li class="ach-item">
+            <div class="ach-dot"></div>
+            <div class="ach-text">사과꽃강의실 플랫폼 운영 — 온·오프라인 <strong>블렌디드 교육</strong> 체계 구축</div>
+          </li>
+        </ul>
+        <div class="ach-stats-row">
+          <div class="ach-stat">
+            <div class="ach-stat-num">100+</div>
+            <div class="ach-stat-label">강의 횟수</div>
+          </div>
+          <div class="ach-stat">
+            <div class="ach-stat-num">1,500+</div>
+            <div class="ach-stat-label">수료 인원</div>
+          </div>
+          <div class="ach-stat">
+            <div class="ach-stat-num">50+</div>
+            <div class="ach-stat-label">협력 기관</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INSTRUCTORS -->
+  <section id="instructors">
+    <div class="instructors-header reveal">
+      <div>
+        <div class="section-label"><span>COLLABORATING INSTRUCTORS</span></div>
+        <h2 class="section-heading">함께하는<br /><span class="accent">협업 강사진</span></h2>
+      </div>
+      <div class="instructors-count">총 13인</div>
+    </div>
+
+    <div class="instructors-grid">
+
+      <div class="instructor-card reveal">
+        <div class="instructor-avatar">박</div>
+        <div class="instructor-name">박은경</div>
+        <div class="instructor-contact">연락처 미입력</div>
+        <div class="instructor-title-badge">강사</div>
+        <div class="instructor-fields">
+          <span class="instructor-field">AI</span>
+          <span class="instructor-field">IT</span>
+        </div>
+      </div>
+
+      <div class="instructor-card reveal reveal-delay-1">
+        <div class="instructor-avatar">이</div>
+        <div class="instructor-name">이윤희</div>
+        <div class="instructor-contact">연락처 미입력</div>
+        <div class="instructor-title-badge">강사</div>
+        <div class="instructor-fields">
+          <span class="instructor-field">생성형 AI 교육</span>
+          <span class="instructor-field">AI 콘텐츠 제작</span>
+          <span class="instructor-field">디지털 리터러시</span>
+        </div>
+      </div>
+
+      <div class="instructor-card reveal reveal-delay-2">
+        <div class="instructor-avatar">이</div>
+        <div class="instructor-name">이은영</div>
+        <div class="instructor-contact">연락처 미입력</div>
+        <div class="instructor-title-badge">강사</div>
+        <div class="instructor-fields">
+          <span class="instructor-field">컴퓨터</span>
+        </div>
+      </div>
+
+      <div class="instructor-card reveal reveal-delay-3">
+        <div class="instructor-avatar">한</div>
+        <div class="instructor-name">한혜정</div>
+        <div class="instructor-contact">연락처 미입력</div>
+        <div class="instructor-title-badge">강사</div>
+        <div class="instructor-fields">
+          <span class="instructor-field">—</span>
+        </div>
+      </div>
+
+      <div class="instructor-card reveal">
+        <div class="instructor-avatar">박</div>
+        <div class="instructor-name">박용남</div>
+        <div class="instructor-contact">연락처 미입력</div>
+        <div class="instructor-title-badge">강사</div>
+        <div class="instructor-fields">
+          <span class="instructor-field">창업</span>
+          <span class="instructor-field">마케팅</span>
+        </div>
+      </div>
+
+
+      <div class="instructor-card reveal reveal-delay-3">
+        <div class="instructor-avatar">이</div>
+        <div class="instructor-name">이성자</div>
+        <div class="instructor-contact">연락처 미입력</div>
+        <div class="instructor-title-badge">강사</div>
+        <div class="instructor-fields">
+          <span class="instructor-field">심리상담 및 강의</span>
+        </div>
+      </div>
+
+      <div class="instructor-card reveal" style="border-color: var(--gold); background: linear-gradient(135deg,#fffdf7,#fff8ec);">
+        <div class="instructor-avatar" style="background: linear-gradient(135deg,#B5711A,#D4922A);">장</div>
+        <div class="instructor-name">장미희</div>
+        <div class="instructor-contact">대표 · vitamihee@gmail.com</div>
+        <div class="instructor-title-badge" style="color:var(--gold);border-color:var(--gold);">대표 강사</div>
+        <div class="instructor-fields">
+          <span class="instructor-field">AI</span>
+          <span class="instructor-field">데이터분석</span>
+          <span class="instructor-field">IT</span>
+          <span class="instructor-field">바이브코딩</span>
+          <span class="instructor-field">디지털리터러시</span>
+          <span class="instructor-field">AI리터러시</span>
+          <span class="instructor-field">심사</span>
+          <span class="instructor-field">멘토링</span>
+        </div>
+      </div>
+
+      <div class="instructor-card reveal reveal-delay-1">
+        <div class="instructor-avatar">정</div>
+        <div class="instructor-name">정서연</div>
+        <div class="instructor-contact">연락처 미입력</div>
+        <div class="instructor-title-badge">강사</div>
+        <div class="instructor-fields">
+          <span class="instructor-field">생성형 AI</span>
+          <span class="instructor-field">디지털 활용</span>
+        </div>
+      </div>
+
+      <div class="instructor-card reveal reveal-delay-2">
+        <div class="instructor-avatar">송</div>
+        <div class="instructor-name">송지윤</div>
+        <div class="instructor-contact">연락처 미입력</div>
+        <div class="instructor-title-badge">강사</div>
+        <div class="instructor-fields">
+          <span class="instructor-field">IT</span>
+          <span class="instructor-field">AI</span>
+        </div>
+      </div>
+
+
+
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="testimonials-header reveal">
+      <div class="section-label"><span>TESTIMONIALS</span></div>
+      <h2 class="section-heading">함께한 분들의<br /><span class="accent">이야기</span></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <p class="testimonial-text">
+          단순한 기술 교육이 아니라 '왜 배워야 하는가'부터 설명해주셔서
+          직원들의 참여도가 전혀 달랐습니다. 교육 후 업무 효율이 눈에 띄게 향상됐어요.
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-dot">김</div>
+          <div>
+            <div class="testimonial-name">김○○ 팀장</div>
+            <div class="testimonial-role">전북 지역 공공기관</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-1">
+        <p class="testimonial-text">
+          엑셀을 15년 썼는데 모르는 기능이 이렇게 많았다니. 맞춤형 예제로
+          바로 업무에 적용할 수 있어서 실용적인 교육이었습니다. 강력 추천합니다!
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-dot">박</div>
+          <div>
+            <div class="testimonial-name">박○○ 과장</div>
+            <div class="testimonial-role">제조기업 경영지원팀</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-2">
+        <p class="testimonial-text">
+          유튜브 디지털랩을 먼저 보고 강의 신청했는데, 영상보다 현장 강의가
+          훨씬 풍성했어요. 열정적인 강의 스타일에 수강생 모두가 집중했습니다.
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-dot">이</div>
+          <div>
+            <div class="testimonial-name">이○○ 수강생</div>
+            <div class="testimonial-role">대학교 평생교육원</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div id="cta">
+    <div>
+      <p class="cta-title">지금 바로 이룸과 함께<br />교육의 변화를 시작하세요</p>
+      <p class="cta-desc">
+        기업 연수, 기관 교육, 대학 강의, 지자체 프로그램—<br />
+        어떤 형태의 교육이든 이룸이 최적의 솔루션을 제안합니다.
+      </p>
+    </div>
+    <div class="cta-actions">
+      <button class="btn-primary" onclick="openApplyModal()">교육 문의하기</button>
+      <a class="btn-ghost" href="https://www.youtube.com/channel/UCsGHAIdj3cmMx6KXr3RbIGg" target="_blank" rel="noopener">디지털랩 구독하기</a>
+    </div>
+  </div>
+
+  <!-- 오시는 길 -->
+  <section id="location">
+    <div class="location-inner">
+      <div class="location-info reveal">
+        <div class="section-label"><span>LOCATION</span></div>
+        <div class="location-title">오시는 길</div>
+        <div class="location-rows">
+          <div class="location-row">
+            <div class="location-icon">📍</div>
+            <div class="location-row-text">
+              <span class="location-row-label">주소</span>
+              <span class="location-row-value">전북특별자치도 전주시<br>소대배기로 18-15, 3층 305호<br><span style="font-size:0.82rem;color:var(--text-muted);">(평화동2가, 호반빌딩)</span></span>
+            </div>
+          </div>
+          <div class="location-row">
+            <div class="location-icon">📞</div>
+            <div class="location-row-text">
+              <span class="location-row-label">전화</span>
+              <span class="location-row-value">0507-1343-1593</span>
+            </div>
+          </div>
+          <div class="location-row">
+            <div class="location-icon">✉️</div>
+            <div class="location-row-text">
+              <span class="location-row-label">이메일</span>
+              <span class="location-row-value">vitamihee@gmail.com</span>
+            </div>
+          </div>
+          <div class="location-row">
+            <div class="location-icon">🕙</div>
+            <div class="location-row-text">
+              <span class="location-row-label">운영시간</span>
+              <span class="location-row-value">평일 10:00 – 18:00</span>
+            </div>
+          </div>
+        </div>
+        <a class="location-map-btn" href="https://map.naver.com/p/entry/place/1431363834" target="_blank" rel="noopener">
+          🗺️ 네이버 지도에서 보기
+        </a>
+      </div>
+      <div class="location-map reveal reveal-delay-1">
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox=127.1272574%2C35.7815741%2C127.1372574%2C35.7915741&layer=mapnik&marker=35.7865741%2C127.1322574"
+          title="교육컨텐츠연구소 이룸 위치"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">
+      <div class="footer-logo">교육컨텐츠연구소 <span>이룸</span></div>
+      <p class="footer-tagline">배우고 나눔을 실천하는<br />교육컨텐츠연구소 이룸은<br />교육으로 세상을 바꿉니다.</p>
+    </div>
+    <div class="footer-links">
+      <h4>SERVICES</h4>
+      <ul>
+        <li><a href="#services">IT·디지털 교육</a></li>
+        <li><a href="#services">스마트워크 역량 강화</a></li>
+        <li><a href="#services">교육 콘텐츠 개발</a></li>
+        <li><a href="#services">자격증 취득 과정</a></li>
+        <li><a href="#services">교육 컨설팅</a></li>
+      </ul>
+    </div>
+    <div class="footer-contact">
+      <h4>CONTACT</h4>
+      <div class="footer-contact-item">
+        <span class="footer-contact-label">EMAIL</span>
+        <span class="footer-contact-value">vitamihee@gmail.com</span>
+      </div>
+      <div class="footer-contact-item">
+        <span class="footer-contact-label">LOCATION</span>
+        <span class="footer-contact-value">전북특별자치도 전주</span>
+      </div>
+      <div class="footer-contact-item">
+        <span class="footer-contact-label">YOUTUBE</span>
+        <span class="footer-contact-value">장미희의 디지털랩</span>
+      </div>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2024 교육컨텐츠연구소 이룸. All rights reserved.</div>
+    <div class="footer-social">
+      <a href="https://www.youtube.com/channel/UCsGHAIdj3cmMx6KXr3RbIGg" target="_blank" rel="noopener">YOUTUBE</a>
+      <a href="mailto:vitamihee@gmail.com">EMAIL</a>
+    </div>
+  </div>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) navbar.classList.add('scrolled');
+      else navbar.classList.remove('scrolled');
+    });
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // Counter animation
+    function animateCounter(el, target, suffix = '') {
+      const duration = 2000;
+      const start = performance.now();
+      const isLarge = target >= 1000;
+
+      function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = Math.round(eased * target);
+        el.textContent = isLarge
+          ? value.toLocaleString('ko-KR') + '+'
+          : value + (suffix || (target === 98 ? '%' : (target === 15 ? '년+' : '+')));
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    }
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const target = parseInt(e.target.dataset.target);
+          animateCounter(e.target, target);
+          counterObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+  </script>
+  <!-- 교육신청 모달 -->
+  <div id="apply-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.55); backdrop-filter:blur(4px); align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:18px; width:min(560px,92vw); max-height:90vh; overflow-y:auto; padding:2.8rem 2.4rem; position:relative; box-shadow:0 24px 64px rgba(0,0,0,0.22);">
+      <button onclick="closeApplyModal()" style="position:absolute; top:1.2rem; right:1.4rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:#9CA3AF; line-height:1;">✕</button>
+      <div style="font-size:0.75rem; font-weight:700; letter-spacing:0.12em; color:var(--accent); text-transform:uppercase; margin-bottom:0.5rem;">EDUCATION INQUIRY</div>
+      <h2 style="font-size:1.5rem; font-weight:800; color:var(--text); margin:0 0 0.4rem;">교육 신청서</h2>
+      <p style="font-size:0.85rem; color:var(--text-sub); margin:0 0 2rem;">이룸의 교육 프로그램에 관심 가져주셔서 감사합니다.<br />아래 양식을 작성해 주시면 빠르게 연락드리겠습니다.</p>
+      <form id="apply-form" onsubmit="submitApplyForm(event)">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+          <div>
+            <label style="display:block; font-size:0.8rem; font-weight:600; color:var(--text); margin-bottom:0.4rem;">성함 <span style="color:var(--accent);">*</span></label>
+            <input type="text" name="name" required placeholder="홍길동" style="width:100%; padding:0.65rem 0.9rem; border:1.5px solid var(--border); border-radius:9px; font-size:0.88rem; color:var(--text); outline:none; box-sizing:border-box; transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" />
+          </div>
+          <div>
+            <label style="display:block; font-size:0.8rem; font-weight:600; color:var(--text); margin-bottom:0.4rem;">연락처 <span style="color:var(--accent);">*</span></label>
+            <input type="tel" name="phone" required placeholder="010-0000-0000" style="width:100%; padding:0.65rem 0.9rem; border:1.5px solid var(--border); border-radius:9px; font-size:0.88rem; color:var(--text); outline:none; box-sizing:border-box; transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" />
+          </div>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label style="display:block; font-size:0.8rem; font-weight:600; color:var(--text); margin-bottom:0.4rem;">이메일</label>
+          <input type="email" name="email" placeholder="example@email.com" style="width:100%; padding:0.65rem 0.9rem; border:1.5px solid var(--border); border-radius:9px; font-size:0.88rem; color:var(--text); outline:none; box-sizing:border-box; transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" />
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label style="display:block; font-size:0.8rem; font-weight:600; color:var(--text); margin-bottom:0.4rem;">소속 기관 / 단체</label>
+          <input type="text" name="org" placeholder="기관명 또는 소속 (없으면 개인)" style="width:100%; padding:0.65rem 0.9rem; border:1.5px solid var(--border); border-radius:9px; font-size:0.88rem; color:var(--text); outline:none; box-sizing:border-box; transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'" />
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label style="display:block; font-size:0.8rem; font-weight:600; color:var(--text); margin-bottom:0.4rem;">희망 교육 과정 <span style="color:var(--accent);">*</span></label>
+          <select name="course" required style="width:100%; padding:0.65rem 0.9rem; border:1.5px solid var(--border); border-radius:9px; font-size:0.88rem; color:var(--text); outline:none; box-sizing:border-box; background:#fff; cursor:pointer; transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+            <option value="">-- 선택해 주세요 --</option>
+            <option>IT·디지털 교육</option>
+            <option>스마트워크 역량 강화</option>
+            <option>생성형 AI 활용 교육</option>
+            <option>자격증 취득 과정 (컴활·ITQ·GTQ 등)</option>
+            <option>AI 자격증 과정 (AI융합지도사·AI-POT 등)</option>
+            <option>교육 콘텐츠 개발</option>
+            <option>교사 지원·나눔 교육</option>
+            <option>기타 (아래 내용에 기재)</option>
+          </select>
+        </div>
+        <div style="margin-bottom:1.6rem;">
+          <label style="display:block; font-size:0.8rem; font-weight:600; color:var(--text); margin-bottom:0.4rem;">문의 내용</label>
+          <textarea name="message" rows="4" placeholder="교육 인원, 일정, 장소 등 궁금한 사항을 자유롭게 적어주세요." style="width:100%; padding:0.65rem 0.9rem; border:1.5px solid var(--border); border-radius:9px; font-size:0.88rem; color:var(--text); outline:none; box-sizing:border-box; resize:vertical; font-family:inherit; transition:border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+        </div>
+        <button type="submit" style="width:100%; padding:0.9rem; background:var(--accent); color:#fff; border:none; border-radius:10px; font-size:1rem; font-weight:700; cursor:pointer; letter-spacing:0.03em; transition:background 0.2s;" onmouseover="this.style.background='var(--accent-dark)'" onmouseout="this.style.background='var(--accent)'">신청서 보내기</button>
+        <p style="text-align:center; font-size:0.78rem; color:var(--text-muted); margin:1rem 0 0;">접수 후 1~2 영업일 내 담당자가 연락드립니다.</p>
+      </form>
+      <div id="apply-success" style="display:none; text-align:center; padding:2rem 0;">
+        <div style="font-size:3rem; margin-bottom:1rem;">✅</div>
+        <h3 style="font-size:1.3rem; font-weight:800; color:var(--text); margin:0 0 0.6rem;">신청이 완료되었습니다!</h3>
+        <p style="color:var(--text-sub); font-size:0.9rem; margin:0 0 1.8rem;">1~2 영업일 내에 담당자가 연락드리겠습니다.<br />감사합니다.</p>
+        <button onclick="closeApplyModal()" style="padding:0.7rem 2rem; background:var(--accent); color:#fff; border:none; border-radius:9px; font-size:0.95rem; font-weight:700; cursor:pointer;">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openApplyModal() {
+      const modal = document.getElementById('apply-modal');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      document.getElementById('apply-form').style.display = 'block';
+      document.getElementById('apply-success').style.display = 'none';
+      document.getElementById('apply-form').reset();
+    }
+    function closeApplyModal() {
+      document.getElementById('apply-modal').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    document.getElementById('apply-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeApplyModal();
+    });
+    function submitApplyForm(e) {
+      e.preventDefault();
+      const form = e.target;
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = '전송 중...';
+
+      const data = new FormData(form);
+      data.append('_subject', '[이룸 교육신청] ' + data.get('course'));
+      data.append('_template', 'table');
+      data.append('_captcha', 'false');
+
+      fetch('https://formsubmit.co/ajax/vitamihee@gmail.com', {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(res => res.json())
+      .then(json => {
+        if (json.success === 'true' || json.success === true) {
+          form.style.display = 'none';
+          document.getElementById('apply-success').style.display = 'block';
+        } else {
+          alert('전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = '신청서 보내기';
+        }
+      })
+      .catch(() => {
+        alert('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = '신청서 보내기';
+      });
+    }
+  </script>
+</body>
+</html>
