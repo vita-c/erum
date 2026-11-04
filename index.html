@@ -2781,7 +2781,7 @@
     document.getElementById('apply-modal').addEventListener('click', function(e) {
       if (e.target === this) closeApplyModal();
     });
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOqDsSgVRX_5OwS0yBiPZLTDApVaEJLGEUjNuEHpNY9v1wy0kTRnPkL1FjHvWbALxzzg/exec';
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwb_u-2I-e1YoejSNXWz2nx93okf92qCYkwAquh9071Dm6Q9nPfFbzOMzj0RMg5AkxK-g/exec';
 
     function submitApplyForm(e) {
       e.preventDefault();
@@ -2796,18 +2796,12 @@
 
       fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        body: params
+        body: params,
+        mode: 'no-cors'
       })
-      .then(res => res.json())
-      .then(json => {
-        if (json.success) {
-          form.style.display = 'none';
-          document.getElementById('apply-success').style.display = 'block';
-        } else {
-          alert('전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
-          submitBtn.disabled = false;
-          submitBtn.textContent = '신청서 보내기';
-        }
+      .then(() => {
+        form.style.display = 'none';
+        document.getElementById('apply-success').style.display = 'block';
       })
       .catch(() => {
         alert('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
