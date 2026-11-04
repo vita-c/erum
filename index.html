@@ -1440,9 +1440,10 @@
       flex-direction: column;
       gap: 5px;
       cursor: pointer;
-      padding: 6px;
-      background: none;
+      padding: 8px;
+      background: rgba(0,0,0,0.25);
       border: none;
+      border-radius: 6px;
       z-index: 201;
     }
     .hamburger span {
@@ -1453,6 +1454,7 @@
       border-radius: 2px;
       transition: all 0.3s;
     }
+    nav.scrolled .hamburger { background: rgba(232,137,26,0.12); }
     nav.scrolled .hamburger span { background: var(--text); }
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
@@ -1499,16 +1501,16 @@
 
     /* Responsive */
     @media (max-width: 900px) {
-      nav { padding: 1.2rem 2rem; }
+      nav { padding: 1.2rem 1.5rem; }
       .nav-links { display: none; }
       .nav-cta { display: none; }
       .hamburger { display: flex; }
       #hero { grid-template-columns: 1fr; }
-      .hero-left { padding: 8rem 1.5rem 4rem; }
+      .hero-left { padding: 8rem 1.5rem 4rem; word-break: keep-all; overflow-wrap: break-word; }
       .hero-geo { display: none; }
       .hero-stats { padding: 1.5rem 1.5rem; grid-template-columns: repeat(2, 1fr); }
-      .hero-title { font-size: clamp(2rem, 8vw, 3.5rem); }
-      .hero-subtitle { font-size: 0.9rem; }
+      .hero-title { font-size: clamp(2rem, 8vw, 3.5rem); word-break: keep-all; }
+      .hero-subtitle { font-size: 0.88rem; line-height: 1.8; word-break: keep-all; max-width: 100%; }
       .hero-actions { flex-direction: column; gap: 0.8rem; }
       .hero-actions a { width: 100%; text-align: center; }
       #about, #digitallab { grid-template-columns: 1fr; padding: 4rem 1.5rem; gap: 2.5rem; }
@@ -1884,9 +1886,7 @@
       </h1>
 
       <p class="hero-subtitle">
-        교육컨텐츠연구소 이룸은 디지털 기반 교육 콘텐츠 개발부터<br />
-        스마트워크 역량 강화, 맞춤형 교육 컨설팅까지—<br />
-        배움이 삶을 바꾸는 경험을 설계합니다.
+        교육컨텐츠연구소 이룸은 디지털 기반 교육 콘텐츠 개발부터 스마트워크 역량 강화, 맞춤형 교육 컨설팅까지— 배움이 삶을 바꾸는 경험을 설계합니다.
       </p>
 
       <div class="hero-actions">
