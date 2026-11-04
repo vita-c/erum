@@ -1434,79 +1434,49 @@
     /* Counter animation */
     .counter { transition: all 0.1s; }
 
-    /* 햄버거 버튼 */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 8px;
-      background: rgba(0,0,0,0.25);
-      border: none;
-      border-radius: 6px;
-      z-index: 201;
-    }
-    .hamburger span {
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: #fff;
-      border-radius: 2px;
-      transition: all 0.3s;
-    }
-    nav.scrolled .hamburger { background: rgba(232,137,26,0.12); }
-    nav.scrolled .hamburger span { background: var(--text); }
-    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    /* 모바일 메뉴 오버레이 */
-    .mobile-menu {
+    /* 모바일 가로 스크롤 메뉴 */
+    .mobile-nav-strip {
       display: none;
       position: fixed;
-      inset: 0;
-      background: rgba(255,255,255,0.98);
-      backdrop-filter: blur(16px);
-      z-index: 199;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
+      top: 56px;
+      left: 0; right: 0;
+      z-index: 98;
+      background: rgba(20,24,48,0.92);
+      backdrop-filter: blur(12px);
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      display: block;
-      padding: 1rem 2rem;
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--text);
-      text-decoration: none;
-      text-align: center;
+    .mobile-nav-strip::-webkit-scrollbar { display: none; }
+    nav.scrolled ~ .mobile-nav-strip {
+      background: rgba(255,255,255,0.97);
       border-bottom: 1px solid var(--border);
-      width: 100%;
-      max-width: 320px;
+    }
+    .mobile-nav-strip a {
+      display: inline-block;
+      padding: 10px 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      letter-spacing: 0.03em;
       transition: color 0.2s;
     }
-    .mobile-menu a:hover { color: var(--accent); }
-    .mobile-menu .mobile-cta {
-      margin-top: 1.5rem;
-      padding: 1rem 3rem;
-      background: var(--accent);
-      color: #fff !important;
-      border-radius: 8px;
-      border: none;
+    .mobile-nav-strip a:last-child {
+      color: var(--accent);
       font-weight: 700;
-      font-size: 1rem;
     }
 
     /* Responsive */
     @media (max-width: 900px) {
-      nav { padding: 1.2rem 1.5rem; }
+      nav { padding: 0.9rem 1.5rem; min-height: 56px; }
       .nav-links { display: none; }
       .nav-cta { display: none; }
-      .hamburger { display: flex; }
+      .mobile-nav-strip { display: block; }
       #hero { grid-template-columns: 1fr; }
-      .hero-left { padding: 8rem 1.5rem 4rem; word-break: keep-all; overflow-wrap: break-word; }
+      .hero-left { padding: 9rem 1.5rem 4rem; word-break: keep-all; overflow-wrap: break-word; }
       .hero-geo { display: none; }
       .hero-stats { padding: 1.5rem 1.5rem; grid-template-columns: repeat(2, 1fr); }
       .hero-title { font-size: clamp(2rem, 8vw, 3.5rem); word-break: keep-all; }
@@ -1540,8 +1510,10 @@
 
     @media (max-width: 480px) {
       .hero-stats { grid-template-columns: 1fr 1fr; gap: 0.8rem; padding: 1rem; }
-      .books-grid { grid-template-columns: 1fr; }
-      .instructors-grid { grid-template-columns: 1fr; }
+      .books-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .book-card { padding: 1.2rem 1rem; min-width: 0; }
+      .book-badge { font-size: 0.6rem; padding: 0.2rem 0.6rem; }
+      .instructors-grid { grid-template-columns: 1fr 1fr; }
       .achievements-grid { grid-template-columns: 1fr; }
       .hero-title { font-size: clamp(1.8rem, 9vw, 2.4rem); }
       .stat-item { padding: 1rem 0.5rem; }
@@ -1664,6 +1636,8 @@
       margin-bottom: 0.5rem;
       line-height: 1.5;
       flex: 1;
+      word-break: keep-all;
+      overflow-wrap: break-word;
     }
     .book-meta {
       display: flex;
@@ -1850,22 +1824,19 @@
       <li><a href="#testimonials">후기</a></li>
     </ul>
     <button class="nav-cta" onclick="openApplyModal()">교육 문의하기</button>
-    <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="메뉴">
-      <span></span><span></span><span></span>
-    </button>
   </nav>
 
-  <!-- 모바일 메뉴 -->
-  <div class="mobile-menu" id="mobile-menu">
-    <a href="#about" onclick="closeMobileMenu()">이룸 소개</a>
-    <a href="#programs" onclick="closeMobileMenu()">프로그램</a>
-    <a href="#services" onclick="closeMobileMenu()">서비스</a>
-    <a href="#digitallab" onclick="closeMobileMenu()">디지털랩</a>
-    <a href="#books" onclick="closeMobileMenu()">저서</a>
-    <a href="#achievements" onclick="closeMobileMenu()">성과</a>
-    <a href="#testimonials" onclick="closeMobileMenu()">후기</a>
-    <a href="#location" onclick="closeMobileMenu()">오시는 길</a>
-    <a class="mobile-cta" href="#" onclick="closeMobileMenu(); openApplyModal(); return false;">교육 문의하기</a>
+  <!-- 모바일 가로 스크롤 메뉴 -->
+  <div class="mobile-nav-strip">
+    <a href="#about">이룸 소개</a>
+    <a href="#programs">프로그램</a>
+    <a href="#services">서비스</a>
+    <a href="#digitallab">디지털랩</a>
+    <a href="#books">저서</a>
+    <a href="#achievements">성과</a>
+    <a href="#testimonials">후기</a>
+    <a href="#location">오시는 길</a>
+    <a href="#" onclick="openApplyModal(); return false;">문의하기</a>
   </div>
 
   <!-- HERO -->
@@ -2870,19 +2841,6 @@
   </div>
 
   <script>
-    function toggleMobileMenu() {
-      const menu = document.getElementById('mobile-menu');
-      const btn = document.getElementById('hamburger');
-      menu.classList.toggle('open');
-      btn.classList.toggle('open');
-      document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
-    }
-    function closeMobileMenu() {
-      document.getElementById('mobile-menu').classList.remove('open');
-      document.getElementById('hamburger').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
     function openApplyModal() {
       const modal = document.getElementById('apply-modal');
       modal.style.display = 'flex';
