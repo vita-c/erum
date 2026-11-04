@@ -2781,6 +2781,8 @@
     document.getElementById('apply-modal').addEventListener('click', function(e) {
       if (e.target === this) closeApplyModal();
     });
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOqDsSgVRX_5OwS0yBiPZLTDApVaEJLGEUjNuEHpNY9v1wy0kTRnPkL1FjHvWbALxzzg/exec';
+
     function submitApplyForm(e) {
       e.preventDefault();
       const form = e.target;
@@ -2789,18 +2791,16 @@
       submitBtn.textContent = '전송 중...';
 
       const data = new FormData(form);
-      data.append('_subject', '[이룸 교육신청] ' + data.get('course'));
-      data.append('_template', 'table');
-      data.append('_captcha', 'false');
+      const params = new URLSearchParams();
+      for (const [key, val] of data.entries()) params.append(key, val);
 
-      fetch('https://formsubmit.co/ajax/vitamihee@gmail.com', {
+      fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
+        body: params
       })
       .then(res => res.json())
       .then(json => {
-        if (json.success === 'true' || json.success === true) {
+        if (json.success) {
           form.style.display = 'none';
           document.getElementById('apply-success').style.display = 'block';
         } else {
