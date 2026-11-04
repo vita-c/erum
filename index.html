@@ -12,6 +12,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>교육컨텐츠연구소 이룸 | 배우고 나눔을 실천하다</title>
+  <meta property="og:title" content="교육컨텐츠연구소 이룸 | 배우고 나눔을 실천하다" />
+  <meta property="og:description" content="30년 교육 경력, 10,000명 수료. 디지털·AI·스마트워크 역량 강화 전문 교육기관" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=1200&h=630&fit=crop&auto=format&q=80" />
+  <meta property="og:url" content="https://erumedu.vercel.app" />
+  <meta property="og:type" content="website" />
+  <meta name="description" content="30년 교육 경력, 10,000명 수료. 디지털·AI·스마트워크 역량 강화 전문 교육기관 교육컨텐츠연구소 이룸" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -1082,6 +1088,8 @@
       font-family: 'DM Mono', monospace;
       letter-spacing: 0.05em;
       border-radius: 20px;
+      white-space: nowrap;
+      word-break: keep-all;
     }
     .instructor-title-badge {
       display: inline-block;
@@ -1521,9 +1529,18 @@
 
     @media (max-width: 480px) {
       .hero-stats { grid-template-columns: 1fr 1fr; gap: 0.8rem; padding: 1.2rem 1rem; }
-      .books-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
-      .book-card { padding: 1.2rem 1rem; min-width: 0; }
-      .book-badge { font-size: 0.6rem; padding: 0.2rem 0.6rem; }
+      .books-grid {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 1rem;
+        padding-bottom: 1rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .books-grid::-webkit-scrollbar { display: none; }
+      .book-card { min-width: 160px; flex-shrink: 0; padding: 1.2rem 1rem; }
+      .book-badge { font-size: 0.6rem; padding: 0.2rem 0.6rem; white-space: nowrap; }
       .instructors-grid { grid-template-columns: 1fr 1fr; }
       .achievements-grid { grid-template-columns: 1fr; }
       .hero-title { font-size: clamp(1.8rem, 9vw, 2.4rem); }
@@ -1736,6 +1753,8 @@
       font-size: 0.78rem;
       color: var(--text-dim);
       font-family: 'DM Mono', monospace;
+      word-break: keep-all;
+      white-space: normal;
       letter-spacing: 0.1em;
       margin-bottom: 2rem;
       padding-bottom: 1.5rem;
