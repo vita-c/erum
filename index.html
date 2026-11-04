@@ -2770,9 +2770,13 @@
       const modal = document.getElementById('apply-modal');
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
-      document.getElementById('apply-form').style.display = 'block';
+      const applyForm = document.getElementById('apply-form');
+      applyForm.style.display = 'block';
+      applyForm.reset();
+      const btn = applyForm.querySelector('button[type="submit"]');
+      btn.disabled = false;
+      btn.textContent = '신청서 보내기';
       document.getElementById('apply-success').style.display = 'none';
-      document.getElementById('apply-form').reset();
     }
     function closeApplyModal() {
       document.getElementById('apply-modal').style.display = 'none';
